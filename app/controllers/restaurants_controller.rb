@@ -32,6 +32,18 @@ class RestaurantsController < ApplicationController
     end
   end
 
+  def find_restaurant
+    @map = GMap.new("map_div")
+    restaurant = "#{params[:restaurant]} in NY, NY"
+
+    results = Geocoding::get(restaurant)
+    if results.status == Geocoding::GEO_SUCCESS
+      coord = results[0].latlon
+      raise "no"
+      @map.overlay_init(GMarker.new(coord,:info_window => params[:restaurant]))
+    end
+  end
+
   # GET /restaurants/1/edit
   def edit
     @restaurant = Restaurant.find(params[:id])
