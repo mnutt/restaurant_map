@@ -1,0 +1,35 @@
+<h1>New restaurant</h1>
+
+<% form_for(@restaurant) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :rating %><br />
+    <%= f.text_field :rating %>
+  </p>
+  <p>
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </p>
+  <p>
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </p>
+  <p>
+    <%= f.label :review %><br />
+    <%= f.text_area :review %>
+  </p>
+  <p>
+    <%= f.label :last_visited_at %><br />
+    <%= f.datetime_select :last_visited_at %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', restaurants_path %>
