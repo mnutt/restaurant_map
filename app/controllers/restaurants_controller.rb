@@ -1,3 +1,5 @@
+require 'yelp'
+
 class RestaurantsController < ApplicationController
   # GET /restaurants
   # GET /restaurants.xml
@@ -33,15 +35,24 @@ class RestaurantsController < ApplicationController
   end
 
   def find_restaurant
+    @zip = "10002"
     @map = GMap.new("map_div")
-    restaurant = "#{params[:restaurant]} in NY, NY"
+    @map.control_init(:large_map => true,:map_type => true)
+    @coords = []
 
-    results = Geocoding::get(restaurant)
-    if results.status == Geocoding::GEO_SUCCESS
-      coord = results[0].latlon
-      raise "no"
-      @map.overlay_init(GMarker.new(coord,:info_window => params[:restaurant]))
+    client = Yelp::Client.new
+    request = Yelp::Review::Request::Location.new(
+                                                  :zipcode => "10002",
+                                                  :radius => 5,
+                                                  :term => params[:restaurant],
+                                                  :yws_id => YWS_ID)
+    response = client.search(request)
+    response['businesses'].each do |restaurant|
+      coord = [restaurant['latitude'], restaurant['longitude']]
+      @coords << coord
+      @map.overlay_init(GMarker.new(coord,:info_window => "<div class='rest'>#{restaurant['name']}</div>"))
     end
+    @map.center_zoom_init(@coords[0], 14)
   end
 
   # GET /restaurants/1/edit

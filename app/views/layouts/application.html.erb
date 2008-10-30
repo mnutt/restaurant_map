@@ -12,6 +12,7 @@
 		<%= stylesheet_link_tag 'base' %>
 		<%= javascript_include_tag :defaults %>
                 <%= GMap.header %>
+		<%= @map.to_html if @map %>
 	</head>
 	<body>
 		<div id="container">

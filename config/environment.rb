@@ -65,3 +65,5 @@ config.gem "capistrano-ext", :lib => "capistrano"
   # Activate observers that should always be running
   config.active_record.observers = :user_observer
 end
+
+YWS_ID = "lOruwEy47021ym1khPePWg"
