@@ -1,11 +1,19 @@
 <h1>New restaurant</h1>
 
+<div style="float: right; width: 700px;">
+  <div id="map_div" style="width:600px;height:400px" ></div>
+</div>
+
+<div id="find_restaurant" style="float: right; width: 700px">
+</div>
+
 <% form_for(@restaurant) do |f| %>
   <%= f.error_messages %>
 
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name %>
+    <%= submit_to_remote 'lookup', "Lookup", :url => find_restaurant_restaurants_url, :update => 'find_restaurant', :eval_scripts => true -%>
   </p>
 
   <div id="restaurant_map"></div>

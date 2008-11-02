@@ -1,12 +1,13 @@
 <h1>Listing restaurants</h1>
 
+<div style="float: right">
+  <%= @map.div(:width => 600, :height => 400) %>
+</div>
+
 <table>
   <tr>
     <th>Name</th>
     <th>Rating</th>
-    <th>Latitude</th>
-    <th>Longitude</th>
-    <th>Review</th>
     <th>Last visited at</th>
   </tr>
 
@@ -14,10 +15,7 @@
   <tr>
     <td><%=h restaurant.name %></td>
     <td><%=h restaurant.rating %></td>
-    <td><%=h restaurant.latitude %></td>
-    <td><%=h restaurant.longitude %></td>
-    <td><%=h restaurant.review %></td>
-    <td><%=h restaurant.last_visited_at %></td>
+    <td><%=h restaurant.last_visited_at.strftime("%b %e, %Y") %></td>
     <td><%= link_to 'Show', restaurant %></td>
     <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
     <td><%= link_to 'Destroy', restaurant, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -28,3 +26,4 @@
 <br />
 
 <%= link_to 'New restaurant', new_restaurant_path %>
+

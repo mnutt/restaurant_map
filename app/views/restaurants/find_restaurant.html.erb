@@ -1,1 +1,8 @@
-<%= @map.div(:width => 600, :height => 400) %>
+<%= @map.to_html if @map %>
+
+<h2>Restaurants</h2>
+<ol>
+<% @restaurants.each do |restaurant| -%>
+  <li><%= restaurant['name'] -%></li>
+<% end -%>
+</ol>
