@@ -1,4 +1,4 @@
-<%= @map.to_html if @map %>
+<%= @map.to_html(:no_global => true, :no_declare => true, :no_load => true) if @map %>
 
 <h2>Restaurants</h2>
 <ol>
