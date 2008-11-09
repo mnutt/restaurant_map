@@ -1,8 +1,34 @@
+<script type="text/javascript">
+  $('map_div').show();
+</script>
+
 <%= @map.to_html(:no_global => true, :no_declare => true, :no_load => true) if @map %>
 
-<h2>Restaurants</h2>
+<h2>Restaurant Matches</h2>
 <ol>
 <% @restaurants.each do |restaurant| -%>
-  <li><%= restaurant['name'] -%></li>
+  <li id="<%= dom_id(restaurant) -%>">
+    <a href="#" class="potential_restaurant">
+      <b><%= restaurant['name'] -%></b>
+    </a>
+    <div class="selected" style="display: none;"><b>SELECTED</b></div>
+    <div class="address">
+      <%= restaurant['address1'] -%><br/>
+      <%= restaurant['city'] -%>, <%= restaurant['state'] -%>
+    </div>
+  </li>
+  <script type="text/javascript">
+    $$('#<%= dom_id(restaurant) -%> a')[0].observe('click', function(e) {
+      Event.stop(e);
+      $('restaurant_name').value = "<%= restaurant['name'] -%>";
+      $('restaurant_address').value = "<%= [restaurant['address1'], restaurant['city'], restaurant['state'], restaurant['zip']].compact.join(", ") -%>";
+      $('restaurant_latitude').value = "<%= restaurant['latitude'] -%>";
+      $('restaurant_longitude').value = "<%= restaurant['longitude'] -%>";
+      $$('ol li div.selected').each(function(selected) {
+        selected.hide();
+      });
+      $$('#<%= dom_id(restaurant) -%> div.selected')[0].show();
+    });
+  </script>
 <% end -%>
 </ol>

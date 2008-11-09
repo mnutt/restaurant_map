@@ -1,27 +1,19 @@
-<h1>Listing restaurants</h1>
+<h1>Restaurants</h1>
 
 <div style="float: right">
-  <%= @map.div(:width => 600, :height => 400) %>
+  <%= @map.div(:width => 800, :height => 500) %>
 </div>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Rating</th>
-    <th>Last visited at</th>
-  </tr>
-
-<% for restaurant in @restaurants %>
-  <tr>
-    <td><%=h restaurant.name %></td>
-    <td><%=h restaurant.rating %></td>
-    <td><%=h restaurant.last_visited_at.strftime("%b %e, %Y") %></td>
-    <td><%= link_to 'Show', restaurant %></td>
-    <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
-    <td><%= link_to 'Destroy', restaurant, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+<div id="restaurants">
+  <% for restaurant in @restaurants %>
+    <div class="restaurant" id="<%= dom_id(restaurant) -%>">
+      <div class="name"><%= link_to h(restaurant.name), restaurant %></div>
+      <div class="visited_at"><%=h restaurant.last_visited_at.strftime("%b %e, %Y") %></div>
+      <span class="rating">Rating: <b><%=h restaurant.rating %></b></span>
+      <span class="edit"><%= link_to 'Edit', edit_restaurant_path(restaurant) %></span>
+    </tr>
+  <% end %>
+</div>
 
 <br />
 

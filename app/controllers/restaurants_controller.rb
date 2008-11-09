@@ -7,7 +7,7 @@ class RestaurantsController < ApplicationController
     @restaurants = Restaurant.find(:all)
 
     @map = GMap.new("map_div")
-    @map.control_init(:large_map => false,:map_type => true)
+    @map.control_init(:large_map => true,:map_type => true, :width => 800, :height => 500)
     @coords = []
     @restaurants.each do |restaurant|
       coord = [restaurant.latitude, restaurant.longitude]
@@ -55,11 +55,7 @@ class RestaurantsController < ApplicationController
 
   def find_restaurant
     @map = GMap.new("map_div")
-    params[:restaurant] ||= {}
-    params[:restaurant][:name] ||= "Spotted Pig"
     @zip = "10002"
-    # @map = GMap.new("map_div")
-    # @map.control_init(:large_map => true,:map_type => true)
     @coords = []
 
     client = Yelp::Client.new
@@ -69,10 +65,11 @@ class RestaurantsController < ApplicationController
                                                   :term => params[:restaurant][:name],
                                                   :yws_id => YWS_ID)
     response = client.search(request)
-    response['businesses'].each do |restaurant|
+    response['businesses'] = response['businesses'].first(10)
+    response['businesses'].each_with_index do |restaurant, i|
       coord = [restaurant['latitude'], restaurant['longitude']]
       @coords << coord
-      @map.overlay_init(GMarker.new(coord,:info_window => "<div class='rest'>#{restaurant['name']}</div>"))
+      @map.overlay_init(GMarker.new(coord, :info_window => "<div class='rest'><b>#{restaurant['name']}</b><br/>#{restaurant['address1']}<br/>#{restaurant['city']}, #{restaurant['state']}</div>"))
     end
     @restaurants = response['businesses']
     @map.center_zoom_init(@coords[0], 14)

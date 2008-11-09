@@ -46,3 +46,37 @@ div.fieldWithErrors textarea
 {
 	
 }
+
+body {
+  font-family: "Lucida Grande", "Helvetica", sans-serif;
+}
+
+#header ul li {
+  float: right;
+  display: block;
+  margin: 0 1em;
+  text-indent: 0;
+  padding: 0;
+}
+
+#restaurants {
+  padding-right: 10px;
+}
+
+div.restaurant div.name {
+  font-weight: bold;
+  font-size: 1.4em;
+  text-decoration: none;
+}
+div.restaurant div.name a {
+  text-decoration: none;
+}
+
+div.restaurant div.rating,
+div.restaurant div.edit {
+  font-size: 0.8em;
+}
+
+a:visited {
+  color: #000088;
+}

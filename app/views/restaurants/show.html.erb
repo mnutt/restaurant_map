@@ -1,37 +1,36 @@
-<div style="float: right;">
-  <%= @map.div(:width => 600, :height => 400) %>
+<div id="restaurant">
+  <h1><%=h @restaurant.name %></h1>
+
+  <div style="float: right;">
+    <%= @map.div(:width => 600, :height => 400) %>
+  </div>
+
+  <p>
+    <%=h @restaurant.address -%>
+  </p>
+  
+  <p>
+    <b>Rating:</b>
+    <%=h @restaurant.rating %>
+  </p>
+  
+  <p>
+    <b>Geo:</b>
+    (<%=h @restaurant.latitude %>, <%=h @restaurant.longitude %>)
+  </p>
+  
+  <p>
+    <b>Review:</b>
+    <%=h @restaurant.review %>
+  </p>
+  
+  <p>
+    <b>Last visited at:</b>
+    <%=h @restaurant.last_visited_at.strftime("%b %e, %Y") %>
+  </p>
+  
+  
+  <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
+  <%= link_to 'Delete', restaurant_path(@restaurant), :method => 'delete' -%> |
+  <%= link_to 'Back', restaurants_path %>
 </div>
-
-<p>
-  <b>Name:</b>
-  <%=h @restaurant.name %>
-</p>
-
-<p>
-  <b>Rating:</b>
-  <%=h @restaurant.rating %>
-</p>
-
-<p>
-  <b>Latitude:</b>
-  <%=h @restaurant.latitude %>
-</p>
-
-<p>
-  <b>Longitude:</b>
-  <%=h @restaurant.longitude %>
-</p>
-
-<p>
-  <b>Review:</b>
-  <%=h @restaurant.review %>
-</p>
-
-<p>
-  <b>Last visited at:</b>
-  <%=h @restaurant.last_visited_at %>
-</p>
-
-
-<%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
-<%= link_to 'Back', restaurants_path %>

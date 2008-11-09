@@ -1,38 +1,47 @@
 <h1>New restaurant</h1>
 
-<div style="float: right; width: 700px;">
-  <div id="map_div" style="width:600px;height:400px" ></div>
+<div id="new_restaurant" style="width: 1000px">
+  <div style="float: right; width: 600px;">
+    <div id="map_div" style="display:none;float:right;width:350px;height:400px" ></div>
+    <div id="find_restaurant" style="float: right; width: 250px">
+    </div>
+  </div>
+  
+  <div style="width: 400px;">
+    <% form_for(@restaurant) do |f| %>
+      <%= f.error_messages %>
+      
+      <p>
+	<%= f.label :name %><br />
+	<%= f.text_field :name %>
+	<%= submit_to_remote 'lookup', "Lookup", :url => find_restaurant_restaurants_url, :update => 'find_restaurant', :eval_scripts => true, :html => {:id => "lookup"} -%>
+      </p>
+      
+      <div id="restaurant_map"></div>
+      <p>
+	<%= f.label :address %><br />
+	<%= f.text_field :address %>
+      </p>
+      <p>
+	<%= f.label :rating, "Rating (higher is better)" %><br />
+	<%= f.select :rating, (1..10).to_a %>
+      </p>
+      
+      <p>
+	<%= f.label :review %><br />
+	<%= f.text_area :review %>
+      </p>
+      <p>
+	<%= f.label :last_visited_at %><br />
+	<%= f.date_select :last_visited_at %>
+      </p>
+      <%= f.hidden_field :latitude -%>
+      <%= f.hidden_field :longitude -%>
+      <p>
+	<%= f.submit "Create" %>
+      </p>
+    <% end %>
+    
+    <%= link_to 'Back', restaurants_path %>
+  </div>
 </div>
-
-<div id="find_restaurant" style="float: right; width: 700px">
-</div>
-
-<% form_for(@restaurant) do |f| %>
-  <%= f.error_messages %>
-
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-    <%= submit_to_remote 'lookup', "Lookup", :url => find_restaurant_restaurants_url, :update => 'find_restaurant', :eval_scripts => true -%>
-  </p>
-
-  <div id="restaurant_map"></div>
-
-  <p>
-    <%= f.label :rating %><br />
-    <%= f.text_field :rating %>
-  </p>
-  <p>
-    <%= f.label :review %><br />
-    <%= f.text_area :review %>
-  </p>
-  <p>
-    <%= f.label :last_visited_at %><br />
-    <%= f.datetime_select :last_visited_at %>
-  </p>
-  <p>
-    <%= f.submit "Create" %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', restaurants_path %>
