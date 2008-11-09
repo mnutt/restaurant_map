@@ -63,6 +63,10 @@ Rails::Initializer.run do |config|
 
   # Activate observers that should always be running
   config.active_record.observers = :user_observer
+
+  config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir|
+    File.directory?(lib = "#{dir}/lib") ? lib : dir
+  end
 end
 
 YWS_ID = "lOruwEy47021ym1khPePWg"
