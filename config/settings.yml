@@ -1,7 +1,7 @@
 development: &non_production_settings
-  site_url: http://localhost:3000
-  site_name: Bort
-  admin_email: bort@bort.com
+  site_url: http://restaurant_map.local
+  site_name: NYC Restaurants
+  admin_email: michael@nuttnet.net
   
 test:
   <<: *non_production_settings
@@ -12,6 +12,6 @@ staging:
   admin_email: bort@bort.com  
   
 production:
-  site_url: http://www.example.com
-  site_name: Bort
-  admin_email: bort@bort.com
+  site_url: http://nycrestaurants.heroku.com
+  site_name: NYC Restaurants
+  admin_email: michael@nuttnet.net
