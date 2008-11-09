@@ -1,3 +1,0 @@
-[submodule "vendor/plugins/ym4r-gm"]
-	path = vendor/plugins/ym4r-gm
-	url = git://github.com/queso/ym4r-gm.git
