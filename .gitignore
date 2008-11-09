@@ -6,3 +6,5 @@ doc/app
 coverage
 db/*.sqlite3
 vendor/rails
+config/database.yml
+config/gmaps_api_key.yml
