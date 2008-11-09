@@ -1,6 +1,3 @@
-[submodule "vendor/rails"]
-	path = vendor/rails
-	url = git://github.com/rails/rails.git
 [submodule "vendor/plugins/ym4r-gm"]
 	path = vendor/plugins/ym4r-gm
 	url = git://github.com/queso/ym4r-gm.git
