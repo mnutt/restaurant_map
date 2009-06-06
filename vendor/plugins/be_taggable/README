@@ -1,0 +1,70 @@
+===BeTaggable
+
+BeTaggable is a lean mean little tagging machine.
+
+* Weights in at 67 lines, this plugin is 1/10th the size of acts_as_taggable gem (2.0.2).
+* Tag any models you want, no need to create additional join table.
+* Built in tags_cache column to reduce DB traffic.
+* Simple installation, run 3 commands and you're ready to tag and roll.
+
+=== Install
+1. install the plugin
+    script/plugin install http://railers.rubyforge.org/svn/plugins/trunk/be_taggable
+2. generate, append your model class names to be tagged.
+    script/generate be_taggable_tables Article Bookmark ...
+3. rake db:migrate
+  
+that's it, now let's tag and roll.
+
+
+===Usage
+  Class TestBook
+    be_taggable  # Mark your class be_taggable. 
+    ...
+  end
+	
+  book = TestBook.create(:name => "AWDWR")
+  book.tag("programming, rails")       # 2 tags added
+  book.tag("agile,       rails")       # "programming" removed, 
+                                         "agile"       added, 
+                                         "rails"       untouched.
+  
+  hash = TestBook.tags_count     # {"rails" => 1, "agile" => 1}
+  
+  book.tag("")                         # remove all tags.
+  
+  TestBook.find_tagged_with("rails")  # return list of matching book objects.
+  TestBook.find_tagged_with("rails", :offset => 20, :limit => 10)  # search with options.
+  
+===Usage in template
+To display model's tags from tags_cache column.
+      <% for tag in YAML::load(article.tags_cache) %>
+        <%= link_to(tag, tagged_articles_path(tag))  # assume route exists %> 
+      <% end -%>
+      
+To show tag cloud
+    <table>
+    <% Article.tags_count.sort.each{|pair| %>
+      <tr>
+        <td><%= link_to(pair[0], tagged_articles_path(pair[0])) %></td>
+        <td><%= pair[1] # count %></td>
+      </tr>
+    <% } %>
+    </table>
+If you like fish eye styled tag clound, feel free to copy off from acts_as_taggable gem.
+
+===BeTaggable Internal
+BeTaggable stays small by fully exploit the power and versatility of 
+ActiveRecord. It only uses 2 models, +Tag+ and association model +Tagship+.
+Tagship is polymorphic and can be associated with any models. 
+
+Tags are distinguished by both tag name and model type. For example, if you 
+have 3 books and 2 DVDs tagged "rails", then there'll be 2 rows in "tags" 
+table, and 5 rows in "tagships" table.
+  id  name    model_type   tagships_count
+  ---------------------------------------
+   1  rails   Book              3
+   2  rails   Dvd               2
+   
+===Q & A
+Help about this plugin is available on http://ruby-on-rails.groups.wuyasea.com

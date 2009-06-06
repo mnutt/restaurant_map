@@ -1,0 +1,9 @@
+<h1><%=h @tag.name -%></h1>
+
+<div style="float: right">
+  <%= @map.div(:width => 800, :height => 500) %>
+</div>
+
+<h2>Restaurants:</h2>
+
+<%= render :partial => 'restaurants/restaurant', :collection => @restaurants -%>

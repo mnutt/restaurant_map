@@ -1,0 +1,9 @@
+<h1>Tags</h1>
+
+<div id="cloud">
+  <% @tags.each do |pair| -%>
+    <div class="tagsize<%= (Math.log(pair[1]+1)*2).to_i -%>">
+      <%= link_to( h(pair[0]).gsub(/\s/, "&nbsp;"), tag_url(pair[0])) -%>
+    </div>
+  <% end -%>
+</div>

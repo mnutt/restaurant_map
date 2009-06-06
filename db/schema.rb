@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081108222727) do
+ActiveRecord::Schema.define(:version => 20090428055923) do
 
   create_table "open_id_authentication_associations", :force => true do |t|
     t.integer "issued"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(:version => 20081108222727) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "address"
+    t.string   "company"
+    t.string   "tags_cache",      :default => "--- []"
   end
 
   create_table "roles", :force => true do |t|
@@ -64,6 +66,27 @@ ActiveRecord::Schema.define(:version => 20081108222727) do
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+
+  create_table "tags", :force => true do |t|
+    t.string   "name",           :limit => 64
+    t.string   "model_type"
+    t.integer  "tagships_count",               :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tags", ["name", "model_type"], :name => "index_tags_on_name_and_model_type"
+  add_index "tags", ["name"], :name => "index_tags_on_name"
+
+  create_table "tagships", :force => true do |t|
+    t.integer  "model_id",   :default => 0
+    t.string   "model_type"
+    t.integer  "tag_id",     :default => 0
+    t.datetime "created_at"
+  end
+
+  add_index "tagships", ["model_id", "model_type"], :name => "index_tagships_on_model_id_and_model_type"
+  add_index "tagships", ["tag_id"], :name => "index_tagships_on_tag_id"
 
   create_table "users", :force => true do |t|
     t.string   "login",                     :limit => 40

@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :passwords
   map.resource :session
+  map.resources :tags
   
   # Home Page
   map.root :controller => 'restaurants', :action => 'index'
