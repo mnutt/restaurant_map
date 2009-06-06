@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../config/environment'
+
+require 'fastercsv'
+require 'yelp'
+require 'text'
+
+restaurants = FasterCSV.read(ARGV[0])
+client = Yelp::Client.new
+
+restaurants.shift # labels
+restaurants.each do |fields|
+  name = fields[0]
+  date = DateTime.parse(fields[1]) rescue nil
+  menu = fields[2] || ""
+  cuisine = fields[3] || ""
+  company = fields[4] || ""
+
+  request = Yelp::Review::Request::Location.new(:zipcode => "10002",
+                                                :radius => 5,
+                                                :term => name,
+                                                :yws_id => YWS_ID)
+  response = client.search(request)
+  result = response['businesses'].first
+  unless result
+    puts "**** Couldn't find #{name}"
+    next
+  end
+
+  tags = [menu]
+  tags << cuisine.split(',')
+  tags << company.split(/,| and /).map{|t| t.strip}
+  tags = tags.flatten.reject{|t| t.blank?}
+
+  found_name = result['name']
+  correctness = Text::Levenshtein.distance(name.downcase.gsub(/[^A-Za-z]/, ''), found_name.downcase.gsub(/[^A-Za-z]/, ''))
+  puts "#{correctness} - #{name} => #{found_name} (#{date})"
+
+  next if Restaurant.find_by_name(found_name)
+  restaurant = Restaurant.new(:name => found_name, :last_visited_at => date,
+                              :company => company, :latitude => result['latitude'],
+                              :longitude => result['longitude'], :address => "#{result['address1']}, #{result['city']}, #{result['state']}")
+  restaurant.save!
+  restaurant.tag(tags.join(", "))
+end
+
+# puts restaurants.map{|r| r.inspect}
