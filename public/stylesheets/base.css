@@ -77,6 +77,57 @@ div.restaurant div.edit {
   font-size: 0.8em;
 }
 
+/* TAGS */
+div#cloud {
+  padding: 2px;
+  line-height: 3em;
+  text-align: center;
+}
+div#cloud div {
+  padding: 0px;
+  display: inline;
+}
+div#cloud div.tagsize0 {
+  font-size: 1em;
+  font-weight: 100;
+}
+div#cloud div.tagsize1 {
+  font-size: 1.2em;
+  font-weight: 200;
+}
+div#cloud div.tagsize2 {
+  font-size: 1.4em;
+  font-weight: 300;
+}
+div#cloud div.tagsize3 {
+  font-size: 1.6em;
+  font-weight: 400;
+}
+div#cloud div.tagsize4 {
+  font-size: 1.8em;
+  font-weight: 500;
+}
+div#cloud div.tagsize5 {
+  font-size: 2em;
+  font-weight: 600;
+}
+div#cloud div.tagsize6 {
+  font-size: 2.2em;
+  font-weight: 700;
+}
+div#cloud div.tagsize7 {
+  font-size: 2.4em;
+  font-weight: 800;
+}
+div#cloud div.tagsize8 {
+  font-size: 2.6em;
+  font-weight: 900;
+}
+div#cloud div.tagsize9 {
+  font-size: 2.8em;
+  font-weight: 900;
+}
+
 a:visited {
   color: #000088;
 }
