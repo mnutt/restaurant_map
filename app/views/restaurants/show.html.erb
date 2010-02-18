@@ -1,8 +1,9 @@
 <div id="restaurant">
   <h1><%=h @restaurant.name %></h1>
 
-  <div style="float: right;">
-    <%= @map.div(:width => 600, :height => 400) %>
+  <%= raw @map.to_html -%>
+  <div style="float: right; width: 600px; height: 400px;">
+    <%= raw @map.div %>
   </div>
 
   <p>
@@ -26,7 +27,14 @@
   
   <p>
     <b>Last visited at:</b>
-    <%=h @restaurant.last_visited_at.strftime("%b %e, %Y") %>
+    <%=h @restaurant.last_visited_at.strftime("%b %e, %Y") rescue "unknown" %>
+  </p>
+
+  <p>
+    <b>Tags:</b>
+    <% YAML::load(@restaurant.tags_cache).each do |tag| %>
+      <%= link_to(h(tag), tag_path(tag)) -%>
+    <% end %>
   </p>
   
   

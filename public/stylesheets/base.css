@@ -59,6 +59,11 @@ body {
   padding: 0;
 }
 
+#container {
+  margin: auto;
+  width: 960px;
+}
+
 #restaurants {
   padding-right: 10px;
 }

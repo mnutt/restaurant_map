@@ -1,47 +1,78 @@
 <h1>New restaurant</h1>
 
+<%= raw @map.to_html %>
+<div id="map_div" style="float: right; width: 550px; height: 300px; visibility: hidden">
+  <%= raw @map.div -%>
+</div>
+
 <div id="new_restaurant" style="width: 1000px">
-  <div style="float: right; width: 600px;">
-    <div id="map_div" style="display:none;float:right;width:350px;height:400px" ></div>
-    <div id="find_restaurant" style="float: right; width: 250px">
-    </div>
+    <div id="find_restaurant" style="float: right; width: 550px; clear: both;"></div>
   </div>
   
   <div style="width: 400px;">
-    <% form_for(@restaurant) do |f| %>
+    <% form_for @restaurant do |f| %>
       <%= f.error_messages %>
       
-      <p>
-	<%= f.label :name %><br />
-	<%= f.text_field :name %>
-	<%= submit_to_remote 'lookup', "Lookup", :url => find_restaurant_restaurants_url, :update => 'find_restaurant', :eval_scripts => true, :html => {:id => "lookup"} -%>
-      </p>
-      
-      <div id="restaurant_map"></div>
-      <p>
-	<%= f.label :address %><br />
-	<%= f.text_field :address %>
-      </p>
-      <p>
-	<%= f.label :rating, "Rating (higher is better)" %><br />
-	<%= f.select :rating, (1..10).to_a %>
-      </p>
-      
-      <p>
-	<%= f.label :review %><br />
-	<%= f.text_area :review %>
-      </p>
-      <p>
-	<%= f.label :last_visited_at %><br />
-	<%= f.date_select :last_visited_at %>
-      </p>
-      <%= f.hidden_field :latitude -%>
-      <%= f.hidden_field :longitude -%>
-      <p>
-	<%= f.submit "Create" %>
-      </p>
+    <p>
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+      <%= link_to "Lookup", find_restaurant_restaurants_url, :id => 'lookup' -%>
+      <script>
+        $('#lookup').click(function() {
+
+          $.get($(this).attr('href'), {name: $('#restaurant_name').val()}, function(data) {
+            $('#find_restaurant').html(data);
+            $('#map_div').css({visibility: "visible"});
+          });
+          return false;
+        });
+      </script>
+    </p>
+    
+    <div id="restaurant_map"></div>
+
+    <p>
+	    <%= f.label :address %><br />
+	    <%= f.text_field :address %>
+    </p>
+    
+    <p>
+	    <%= f.label :rating, "Rating (higher is better)" %><br />
+	    <%= f.select :rating, (1..10).to_a %>
+    </p>
+    
+    <p>
+	    <%= f.label :review %><br />
+	    <%= f.text_area :review %>
+    </p>
+    
+    <p>
+	    <%= f.label :last_visited_at %><br />
+	    <%= f.date_select :last_visited_at %>
+    </p>
+
+    <%= f.hidden_field :latitude -%>
+    <%= f.hidden_field :longitude -%>
+
+    <p>
+	    <%= f.submit "Create" %>
+    </p>
+
     <% end %>
     
     <%= link_to 'Back', restaurants_path %>
   </div>
 </div>
+
+
+<script type="text/javascript">
+  $(function() {
+    $("ol.results li a").live('click', function() {
+      $('#restaurant_name').val($(this).parent().find('input.name').val());
+      $('#restaurant_address').val($(this).parent().find('input.address').val());
+      $('#restaurant_latitude').val($(this).parent().find('input.latitude').val());
+      $('#restaurant_longitude').val($(this).parent().find('input.longitude').val());
+      return false;
+    });
+  });
+</script>

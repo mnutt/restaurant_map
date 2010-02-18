@@ -1,27 +1,20 @@
-ActionController::Routing::Routes.draw do |map|
+RestaurantMap::Application.routes.draw do |map|
   map.resources :restaurants, :collection => {:find_restaurant => :any}
  
   # Restful Authentication Rewrites
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
-  map.register '/register', :controller => 'users', :action => 'create'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil
-  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
-  map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
-  map.open_id_complete '/opensession', :controller => "sessions", :action => "create", :requirements => { :method => :get }
-  map.open_id_create '/opencreate', :controller => "users", :action => "create", :requirements => { :method => :get }
+  match '/logout'                      => 'session#destroy', :as => :logout
+  match '/login'                       => 'session#new',     :as => :login
+  match '/signup'                      => 'users#new',        :as => :signup
+  match '/activate/activation_code'    => 'users#activate',   :as => :activate, :activation_code => nil
+  match '/forgot_password'             => 'session#new',     :as => :forgot_password
+  match '/change_password/:reset_code' => 'session#new',     :as => :change_password
   
   # Restful Authentication Resources
-  map.resources :users
-  map.resources :passwords
-  map.resource :session
-  map.resources :tags
+  resources :users
+  resources :passwords
+  resource :session
+  resources :tags
   
   # Home Page
-  map.root :controller => 'restaurants', :action => 'index'
-
-  # Install the default routes as the lowest priority.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  root :to => 'restaurants#index'
 end

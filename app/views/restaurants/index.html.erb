@@ -1,18 +1,12 @@
 <h1>Restaurants</h1>
 
-<div style="float: right">
-  <%= @map.div(:width => 800, :height => 500) %>
+<%= raw @map.to_html %>
+<div style="margin: auto; width: 960px; height: 400px;">
+  <%= raw @map.div %>
 </div>
 
 <div id="restaurants">
-  <% for restaurant in @restaurants %>
-    <div class="restaurant" id="<%= dom_id(restaurant) -%>">
-      <div class="name"><%= link_to h(restaurant.name), restaurant %></div>
-      <div class="visited_at"><%=h restaurant.last_visited_at.strftime("%b %e, %Y") %></div>
-      <span class="rating">Rating: <b><%=h restaurant.rating %></b></span>
-      <span class="edit"><%= link_to 'Edit', edit_restaurant_path(restaurant) %></span>
-    </tr>
-  <% end %>
+  <%= render :partial => 'restaurant', :collection => @restaurants -%>
 </div>
 
 <br />

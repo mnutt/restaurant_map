@@ -6,27 +6,20 @@ class UsersController < ApplicationController
   end
  
   def create
-    logout_keeping_session!
-    if using_open_id?
-      authenticate_with_open_id(params[:openid_url], :return_to => open_id_create_url, 
-        :required => [:nickname, :email]) do |result, identity_url, registration|
-        if result.successful?
-          create_new_user(:identity_url => identity_url, :login => registration['nickname'], :email => registration['email'])
-        else
-          failed_creation(result.message || "Sorry, something went wrong")
-        end
-      end
+    @user = User.new(params[:user])
+    if @user.save
+      flash[:notice] = "Account registered!"
+      redirect_back_or_default account_url
     else
-      create_new_user(params[:user])
+      render :action => :new
     end
-  end
-  
+  end 
+
   def activate
-    logout_keeping_session!
-    user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
+    @user = User.find_by_activation_code(params[:activation_code]) unless params[:activation_code].blank?
     case
-    when (!params[:activation_code].blank?) && user && !user.active?
-      user.activate!
+    when (!params[:activation_code].blank?) && @user && !@user.active?
+      @user.activate!
       flash[:notice] = "Signup complete! Please sign in to continue."
       redirect_to login_path
     when params[:activation_code].blank?
@@ -37,35 +30,14 @@ class UsersController < ApplicationController
       redirect_back_or_default(root_path)
     end
   end
-  
-  protected
-  
-  def create_new_user(attributes)
-    @user = User.new(attributes)
-    if @user && @user.valid?
-      if @user.not_using_openid?
-        @user.register!
-      else
-        @user.register_openid!
-      end
-    end
-    
-    if @user.errors.empty?
-      successful_creation(@user)
+
+  def update
+    @user = @current_user # makes our views "cleaner" and more consistent
+    if @user.update_attributes(params[:user])
+      flash[:notice] = "Account updated!"
+      redirect_to account_url
     else
-      failed_creation
+      render :action => :edit
     end
-  end
-  
-  def successful_creation(user)
-    redirect_back_or_default(root_path)
-    flash[:notice] = "Thanks for signing up!"
-    flash[:notice] << " We're sending you an email with your activation code." if @user.not_using_openid?
-    flash[:notice] << " You can now login with your OpenID." unless @user.not_using_openid?
-  end
-  
-  def failed_creation(message = 'Sorry, there was an error creating your account')
-    flash[:error] = message
-    render :action => :new
   end
 end

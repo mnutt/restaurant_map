@@ -6,15 +6,15 @@ class RestaurantsController < ApplicationController
   def index
     @restaurants = Restaurant.find(:all)
 
-    @map = GMap.new("map_div")
-    @map.control_init(:large_map => true,:map_type => true, :width => 800, :height => 500)
-    @coords = []
+    @map = GoogleMap::Map.new
+    @map.controls = [:large, :scale, :type]
+    @map.zoom = 13
     @restaurants.each do |restaurant|
-      coord = [restaurant.latitude, restaurant.longitude]
-      @coords << coord
-      @map.overlay_init(GMarker.new(coord, :info_window => "<div class='rest'>#{restaurant.name}</div>"))
+      @map.markers << GoogleMap::Marker.new(:lat => restaurant.latitude,
+                                            :lng => restaurant.longitude,
+                                            :map => @map,
+                                            :html => "<div class='rest'>#{restaurant.name}</div>")
     end
-    @map.center_zoom_on_points_init(*@coords)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -26,12 +26,12 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1.xml
   def show
     @restaurant = Restaurant.find(params[:id])
-    @map = GMap.new("map_div")
-    @map.control_init(:large_map => true,:map_type => true)
-    
-    coord = [@restaurant.latitude, @restaurant.longitude]
-    @map.overlay_init(GMarker.new(coord, :info_window => @restaurant.name))
-    @map.center_zoom_on_points_init(coord)
+    @map = GoogleMap::Map.new
+    @map.controls = [:large, :scale, :type]
+    @map.markers << GoogleMap::Marker.new(:lat => @restaurant.latitude,
+                                          :lng => @restaurant.longitude,
+                                          :map => @map,
+                                          :html => @restaurant.name)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -42,9 +42,11 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/new
   # GET /restaurants/new.xml
   def new
-    @map = GMap.new("map_div")
-    @map.control_init(:large_map => true,:map_type => true)
-    @map.center_zoom_init([40, -17], 5)
+    @map = GoogleMap::Map.new
+    @map.controls = [:large, :scale, :type]
+    @map.center = GoogleMap::Point.new(40, -17)
+    @map.zoom = 5
+    
     @restaurant = Restaurant.new
 
     respond_to do |format|
@@ -54,25 +56,34 @@ class RestaurantsController < ApplicationController
   end
 
   def find_restaurant
-    @map = GMap.new("map_div")
+    @map = GoogleMap::Map.new
     @zip = "10002"
-    @coords = []
+    @marker_letters = ('a'..'z').to_a
 
     client = Yelp::Client.new
-    request = Yelp::Review::Request::Location.new(
-                                                  :zipcode => "10002",
-                                                  :radius => 5,
-                                                  :term => params[:restaurant][:name],
-                                                  :yws_id => YWS_ID)
+    location = {
+      :zipcode => "10002",
+      :radius => 5,
+      :term => params[:name],
+      :yws_id => YWS_ID
+    }
+    request = Yelp::Review::Request::Location.new(location)
+    
     response = client.search(request)
-    response['businesses'] = response['businesses'].first(10)
-    response['businesses'].each_with_index do |restaurant, i|
-      coord = [restaurant['latitude'], restaurant['longitude']]
-      @coords << coord
-      @map.overlay_init(GMarker.new(coord, :info_window => "<div class='rest'><b>#{restaurant['name']}</b><br/>#{restaurant['address1']}<br/>#{restaurant['city']}, #{restaurant['state']}</div>"))
+
+    @restaurants = response['businesses'].first(10)
+    @restaurants.each_with_index do |restaurant, i|
+      marker_options = {
+        :lat => restaurant['latitude'],
+        :lng => restaurant['longitude'],
+        :map => @map,
+        :icon => GoogleMap::LetterIcon.new(@map, @marker_letters[i].upcase),
+        :html => "<div class='rest'><b>#{restaurant['name']}</b><br/>#{restaurant['address1']}<br/>#{restaurant['city']}, #{restaurant['state']}</div>"
+      }
+      
+      @map.markers << GoogleMap::Marker.new(marker_options)
     end
-    @restaurants = response['businesses']
-    @map.center_zoom_init(@coords[0], 14)
+    
 
     render :layout => false
   end

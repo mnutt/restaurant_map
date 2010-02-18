@@ -15,9 +15,7 @@
 		<meta name="resource-type" content="document" />
 		<meta name="MSSmartTagsPreventParsing" content="true" />
 		<%= stylesheet_link_tag 'base' %>
-		<%= javascript_include_tag :defaults %>
-                <%= GMap.header %>
-		<%= @map.to_html(:full => @full_map) if @map %>
+		<%= javascript_include_tag 'jquery' %>
 	</head>
 	<body>
 		<div id="container">
@@ -30,9 +28,10 @@
 					<li><%= link_to 'Signup', signup_path %></li>
 					<% end %>
 				</ul>
+			        <h1>GrubPoints</h1>
 			</div>
 			<div id="content">
-				<%= flash_messages %>
+				<%= raw flash_messages %>
 				<%= yield :layout %>
 			</div>
 		</div>
