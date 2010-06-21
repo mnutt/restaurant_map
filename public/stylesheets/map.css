@@ -122,7 +122,14 @@ div.olControlMousePosition {
 .olLayerGeoRSSTitle {
     float:left;font-size:1.2em;
 }
-
+.olPopup {
+    -moz-box-shadow: 3px 3px 3px #666;
+    -webkit-box-shadow: 3px 3px 3px #666;
+    box-shadow: 3px 3px 3px #666;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
 .olPopupContent {
     padding:5px;
     overflow: auto;

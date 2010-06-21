@@ -19,7 +19,7 @@
         var size = new OpenLayers.Size(170,30);
         var loc = new OpenLayers.LonLat(this.restaurant.longitude, this.restaurant.latitude);
 
-        var popup = new OpenLayers.Popup.AnchoredBubble("rm_" + this.restaurant.id, loc, size, this.restaurant.name, this.icon, true);
+        var popup = new OpenLayers.Popup.Anchored("rm_" + this.restaurant.id, loc, size, this.restaurant.name, this.icon, true);
         markers.map.addPopup(popup, true);
 
       });

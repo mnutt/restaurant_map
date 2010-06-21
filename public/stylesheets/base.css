@@ -1,50 +1,50 @@
 /* === FLASH MESSAGES === */
 div#flash-notice {
-	
+
 }
 
 div#flash-warning {
-	
+
 }
 
 div#flash-error {
-	
+
 }
 
 /* === ERROR MESSAGES === */
 div#errorExplanation {
-	
+
 }
 
 div#errorExplanation h2 {
-	
+
 }
 
 div#errorExplanation p {
-	
+
 }
 
 div#errorExplanation ul {
-	
+
 }
 
 div#errorExplanation ul li {
-	
+
 }
 
 /* === FORMS === */
 div.fieldWithErrors {
-	
+
 }
 
 div.fieldWithErrors label {
-	
+
 }
 
-div.fieldWithErrors input, div.fieldWithErrors select, 
+div.fieldWithErrors input, div.fieldWithErrors select,
 div.fieldWithErrors textarea
 {
-	
+
 }
 
 body {
@@ -67,7 +67,10 @@ body {
 }
 
 #restaurants {
+  padding-top: 20px;
   padding-right: 10px;
+  -moz-column-count: 3;
+  -webkit-column-count: 3;
 }
 
 #map_container {
@@ -75,6 +78,15 @@ body {
   padding: 4px 0;
   border-top: 8px solid #FFF;
   border-bottom: 8px solid #FFF;
+}
+
+#google_map {
+  color: #000;
+}
+
+div.restaurant {
+  padding-bottom: 15px;
+  display: block;
 }
 
 div.restaurant div.name {
