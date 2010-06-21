@@ -1,4 +1,5 @@
 require 'yelp'
+require 'json/pure'
 
 class RestaurantsController < ApplicationController
   # GET /restaurants
@@ -6,19 +7,20 @@ class RestaurantsController < ApplicationController
   def index
     @restaurants = Restaurant.find(:all)
 
-    @map = GoogleMap::Map.new
-    @map.controls = [:large, :scale, :type]
-    @map.zoom = 13
-    @restaurants.each do |restaurant|
-      @map.markers << GoogleMap::Marker.new(:lat => restaurant.latitude,
-                                            :lng => restaurant.longitude,
-                                            :map => @map,
-                                            :html => "<div class='rest'>#{restaurant.name}</div>")
+    @map = MapLayers::Map.new('map', :controls => []) do |map, page|
+      page << map.add_layer(MapLayers::Layer::WMS.new("OpenStreetMap",
+        [ "http://demo.opengeo.org/geoserver_openstreetmap/gwc/service/wms" ],
+        {:layers => 'openstreetmap', :format => 'image/png'}))
+      page << map.zoom_to_max_extent
+      page << map.set_center(OpenLayers::LonLat.new(-73.9833, 40.7315), 14)
+      page << map.add_control(Control::PanZoomBar.new)
+      page << map.add_control(Control::Navigation.new(:document_drag => true))
     end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @restaurants }
+      format.json { render :json => @restaurants.map(&:attributes) }
     end
   end
 
@@ -46,7 +48,7 @@ class RestaurantsController < ApplicationController
     @map.controls = [:large, :scale, :type]
     @map.center = GoogleMap::Point.new(40, -17)
     @map.zoom = 5
-    
+
     @restaurant = Restaurant.new
 
     respond_to do |format|
@@ -68,7 +70,7 @@ class RestaurantsController < ApplicationController
       :yws_id => YWS_ID
     }
     request = Yelp::Review::Request::Location.new(location)
-    
+
     response = client.search(request)
 
     @restaurants = response['businesses'].first(10)
@@ -80,10 +82,10 @@ class RestaurantsController < ApplicationController
         :icon => GoogleMap::LetterIcon.new(@map, @marker_letters[i].upcase),
         :html => "<div class='rest'><b>#{restaurant['name']}</b><br/>#{restaurant['address1']}<br/>#{restaurant['city']}, #{restaurant['state']}</div>"
       }
-      
+
       @map.markers << GoogleMap::Marker.new(marker_options)
     end
-    
+
 
     render :layout => false
   end
