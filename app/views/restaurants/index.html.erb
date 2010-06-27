@@ -28,11 +28,17 @@
           bl: {offset: new OpenLayers.Pixel(60, 12), padding: 0, blocks: []},
           br: {offset: new OpenLayers.Pixel(-60, 12), padding: 0, blocks: []}
         }
+
+        $(this.icon.imageDiv).children().attr('src', '/images/OpenLayers/marker-small-blue.png');
+
         popup.updateBlocks = function() {
           $(this.div).addClass("pos_" + this.relativePosition);
         }
         markers.map.addPopup(popup, true);
 
+      });
+      marker.events.register("mouseleave", marker, function(evt) {
+        $(this.icon.imageDiv).children().attr('src', '/images/OpenLayers/marker-small.png');
       });
     }
     map.addLayer(markers);
