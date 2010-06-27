@@ -11,6 +11,7 @@ gem "json"
 gem "yelp"
 gem "ruby-openid"
 gem "mysql"
+gem "thin"
 
 ## Bundle gems used only in certain environments:
 group :test do
