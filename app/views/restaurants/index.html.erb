@@ -34,10 +34,12 @@
         popup.updateBlocks = function() {
           $(this.div).addClass("pos_" + this.relativePosition);
         }
+        popup._contentDivPadding.bottom = -4;
+        popup._contentDivPadding.right = 0;
         markers.map.addPopup(popup, true);
 
       });
-      marker.events.register("mouseleave", marker, function(evt) {
+      marker.events.register("mouseout", marker, function(evt) {
         $(this.icon.imageDiv).children().attr('src', '/images/OpenLayers/marker-small.png');
       });
     }

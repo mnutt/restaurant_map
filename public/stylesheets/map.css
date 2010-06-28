@@ -129,9 +129,13 @@ div.olControlMousePosition {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgb(20,20,20);
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#333), to(#222));
     color: #FFF;
     overflow: visible !important;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-transform: uppercase;
 }
 
 .olPopup > div {
@@ -146,7 +150,7 @@ div.pos_tr:after, div.pos_tl:after, div.pos_bl:after, div.pos_br:after {
   position: absolute;
   width: 0;
   bottom: -20px;
-  border-color: rgba(0,0,0,0.7) transparent transparent;
+  border-color: #222 transparent transparent;
   border-style: solid;
   border-width: 10px 10px;
 }
@@ -159,7 +163,7 @@ div.pos_tl:after, div.pos_bl:after {
 div.pos_bl:after, div.pos_br:after {
   bottom: auto;
   top: -20px;
-  border-color: transparent transparent rgba(0,0,0,0.8);
+  border-color: transparent transparent #333;
 }
 
 .olPopupContent {
@@ -349,8 +353,9 @@ div.pos_bl:after, div.pos_br:after {
 }
 
 .olPopupCloseBox {
-  background: url("/images/OpenLayers/close.gif") no-repeat;
+  background: url("/images/OpenLayers/close.gif") top right no-repeat;
   cursor: pointer;
+  opacity: 0.4;
 }
 
 .olFramedCloudPopupContent {
