@@ -1,13 +1,12 @@
 <div class="restaurant" id="<%= dom_id(restaurant) -%>">
-  <div class="name"><%= link_to h(restaurant.name), restaurant %></div>
   <div class="visited_at">
     <% if restaurant.last_visited_at -%>
-      <%=h restaurant.last_visited_at.strftime("%b %e, %Y") %>
+      <%= restaurant.last_visited_at.strftime("%b %Y") %>
     <% else -%>
-      Unknown
+      ???
     <% end -%>
   </div>
-<% if restaurant.rating -%>
-  <span class="rating">Rating: <b><%=h restaurant.rating %></b></span>
-<% end -%>
+
+  <div class="name"><%= link_to h(restaurant.name), restaurant %></div>
+  <div class="address"><%=h restaurant.address -%></div>
 </div>

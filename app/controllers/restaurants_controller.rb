@@ -5,7 +5,7 @@ class RestaurantsController < ApplicationController
   # GET /restaurants
   # GET /restaurants.xml
   def index
-    @restaurants = Restaurant.find(:all)
+    @restaurants = Restaurant.find(:all, :order => "last_visited_at desc")
 
     @map = MapLayers::Map.new('map', :controls => []) do |map, page|
       page << map.add_layer(MapLayers::Layer::WMS.new("OpenStreetMap",
@@ -28,12 +28,15 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/1.xml
   def show
     @restaurant = Restaurant.find(params[:id])
-    @map = GoogleMap::Map.new
-    @map.controls = [:large, :scale, :type]
-    @map.markers << GoogleMap::Marker.new(:lat => @restaurant.latitude,
-                                          :lng => @restaurant.longitude,
-                                          :map => @map,
-                                          :html => @restaurant.name)
+    @map = MapLayers::Map.new('map', :controls => []) do |map, page|
+      page << map.add_layer(MapLayers::Layer::WMS.new("OpenStreetMap",
+        [ "http://demo.opengeo.org/geoserver_openstreetmap/gwc/service/wms" ],
+        {:layers => 'openstreetmap', :format => 'image/png'}))
+      page << map.zoom_to_max_extent
+      page << map.set_center(OpenLayers::LonLat.new(@restaurant.longitude, @restaurant.latitude), 15)
+      page << map.add_control(Control::PanZoomBar.new)
+      page << map.add_control(Control::Navigation.new(:document_drag => true))
+    end
 
     respond_to do |format|
       format.html # show.html.erb

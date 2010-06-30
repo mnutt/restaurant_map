@@ -1,43 +1,49 @@
 <div id="restaurant">
+  <div style="float: right; width: 600px; height: 300px;">
+    <div id="map" style="margin: auto; width: 600px; height: 300px;"></div>
+  </div>
+  <%= raw @map.to_html -%>
+
+  <script>
+     markers = new OpenLayers.Layer.Markers("Restaurants");
+     var restaurant = <%=raw @restaurant.attributes.to_json -%>;
+     GrubPoints.addRestaurantMarker(markers, restaurant, true);
+     map.addLayer(markers);
+     GrubPoints.showPopup.call(markers.markers[0]);
+  </script>
+
   <h1><%=h @restaurant.name %></h1>
 
-  <%= raw @map.to_html -%>
-  <div style="float: right; width: 600px; height: 400px;">
-    <%= raw @map.div %>
-  </div>
-
-  <p>
+  <p class="address">
     <%=h @restaurant.address -%>
   </p>
-  
+
   <p>
     <b>Rating:</b>
     <%=h @restaurant.rating %>
   </p>
-  
-  <p>
-    <b>Geo:</b>
-    (<%=h @restaurant.latitude %>, <%=h @restaurant.longitude %>)
-  </p>
-  
+
   <p>
     <b>Review:</b>
     <%=h @restaurant.review %>
   </p>
-  
+
   <p>
     <b>Last visited at:</b>
     <%=h @restaurant.last_visited_at.strftime("%b %e, %Y") rescue "unknown" %>
   </p>
 
-  <p>
-    <b>Tags:</b>
-    <% YAML::load(@restaurant.tags_cache).each do |tag| %>
-      <%= link_to(h(tag), tag_path(tag)) -%>
-    <% end %>
-  </p>
-  
-  
+  <% tags = YAML::load(@restaurant.tags_cache) -%>
+  <% unless tags.empty? -%>
+    <p>
+      <b>Tags:</b>
+      <% tags.each do |tag| %>
+        <%= link_to(h(tag), tag_path(tag)) -%>
+      <% end %>
+    </p>
+  <% end -%>
+
+
   <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
   <%= link_to 'Delete', restaurant_path(@restaurant), :method => 'delete' -%> |
   <%= link_to 'Back', restaurants_path %>

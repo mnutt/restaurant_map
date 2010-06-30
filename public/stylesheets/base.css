@@ -68,9 +68,6 @@ body {
 
 #restaurants {
   padding-top: 20px;
-  padding-right: 10px;
-  -moz-column-count: 3;
-  -webkit-column-count: 3;
 }
 
 #map_container {
@@ -89,22 +86,47 @@ body {
 }
 
 div.restaurant {
-  padding-bottom: 15px;
+  padding: 14px;
   display: block;
+/*  background: -moz-linear-gradient(top, #d9d9d9, #a4a4a4); */
+/*  background: -webkit-gradient(linear, left top, left bottom, from(#222), to(#111)); */
+/*  -moz-border-radius: 4px; */
+/*  -webkit-border-radius: 4px; */
+/*  border-radius: 4px; */
+  border-bottom: 1px solid #000;
+  border-top: 1px solid #666;
+}
+
+div.restaurant div.address {
+  font-size: 0.7em;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 div.restaurant div.name {
   font-weight: bold;
-  font-size: 1.4em;
-  text-decoration: none;
+  font-size: 1em;
+  text-shadow: 0px 1px 0px #444;
+  margin-bottom: 2px;
 }
 div.restaurant div.name a {
   text-decoration: none;
+  color: #FFF;
 }
 
-div.restaurant div.rating,
-div.restaurant div.edit {
+div.restaurant div.visited_at {
   font-size: 0.8em;
+  float: right;
+  width: 30px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Restaurant page */
+
+#restaurant h1 {
+  font-size: 1.2em;
+  text-transform: uppercase;
 }
 
 /* TAGS */
