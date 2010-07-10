@@ -1,10 +1,23 @@
-<h1><%=h @tag.name -%></h1>
-
-<%= raw @map.to_html -%>
-<div style="float: right; width: 600px; height: 400px;">
-  <%= raw @map.div %>
+<div id="map_container">
+  <div id="map" style="margin: auto; width: 960px; height: 400px;"></div>
 </div>
 
-<h2>Restaurants:</h2>
+<%= raw @map.to_html -%>
+
+<script>
+  $.getJSON("/tags/<%=h @tag.name -%>.json", function(data) {
+    var restaurants = data;
+    markers = new OpenLayers.Layer.Markers("Restaurants");
+
+    for(var i = 0; i < restaurants.length; i++) {
+      var restaurant = restaurants[i];
+      GrubPoints.addRestaurantMarker(markers, restaurant);
+    }
+    map.addLayer(markers);
+  });
+
+</script>
+
+<h2>Restaurants with tag <%=h @tag.name -%></h2>
 
 <%= render :partial => 'restaurants/restaurant', :collection => @restaurants -%>

@@ -18,15 +18,19 @@
     <%=h @restaurant.address -%>
   </p>
 
-  <p>
-    <b>Rating:</b>
-    <%=h @restaurant.rating %>
-  </p>
+  <% if @restaurant.rating -%>
+    <p>
+      <b>Rating:</b>
+      <%=h @restaurant.rating %>
+    </p>
+  <% end -%>
 
-  <p>
-    <b>Review:</b>
-    <%=h @restaurant.review %>
-  </p>
+  <% if @restaurant.review -%>
+    <p>
+      <b>Review:</b>
+      <%=h @restaurant.review %>
+    </p>
+  <% end -%>
 
   <p>
     <b>Last visited at:</b>
@@ -43,8 +47,10 @@
     </p>
   <% end -%>
 
+  <% if current_user -%>
+    <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
+    <%= link_to 'Delete', restaurant_path(@restaurant), :method => 'delete' -%> |
+    <%= link_to 'Back', restaurants_path %>
+  <% end -%>
 
-  <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
-  <%= link_to 'Delete', restaurant_path(@restaurant), :method => 'delete' -%> |
-  <%= link_to 'Back', restaurants_path %>
 </div>
