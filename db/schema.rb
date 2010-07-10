@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090428055923) do
+ActiveRecord::Schema.define(:version => 20100710210755) do
 
   create_table "restaurants", :force => true do |t|
     t.string   "name"
@@ -57,7 +57,6 @@ ActiveRecord::Schema.define(:version => 20090428055923) do
   add_index "tagships", ["tag_id"], :name => "index_tagships_on_tag_id"
 
   create_table "users", :force => true do |t|
-    t.string   "login",                                              :null => false
     t.string   "name",                :limit => 100, :default => ""
     t.string   "email",                                              :null => false
     t.string   "crypted_password",                                   :null => false
@@ -76,7 +75,5 @@ ActiveRecord::Schema.define(:version => 20090428055923) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
 end

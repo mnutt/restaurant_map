@@ -125,7 +125,6 @@ specs:
     version: 3.0.0.beta
 - authlogic: 
     version: 2.1.5
-    source: 0
 - bundler: 
     version: 0.9.26
 - columnize: 
@@ -151,7 +150,7 @@ specs:
 - nokogiri: 
     version: 1.4.2
 - thor: 
-    version: 0.13.6
+    version: 0.13.7
 - railties: 
     version: 3.0.0.beta
 - rails: 
@@ -167,7 +166,7 @@ specs:
 - ruby-openid: 
     version: 2.1.7
 - ruby-prof: 
-    version: 0.8.1
+    version: 0.8.2
 - text: 
     version: 0.2.0
 - thin: 
@@ -176,11 +175,7 @@ specs:
     version: 0.7.1
 - yelp: 
     version: 1.0.0
-hash: ff9ba38fa9040f216f3c2db77e5abb366d7ed0a4
+hash: 29f16cef2df112d97be6e8a4bc08963f48a89f86
 sources: 
-- Git: 
-    uri: git://github.com/binarylogic/authlogic.git
-    git: git://github.com/binarylogic/authlogic.git
-    ref: c52993c83479d614a18cc888a0ddc0a25b5afd8e
 - Rubygems: 
     uri: http://gemcutter.org

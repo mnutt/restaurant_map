@@ -3,7 +3,7 @@ source 'http://gemcutter.org'
 gem 'rails', '3.0.0.beta'
 gem 'rack'
 
-gem 'authlogic', :git => 'git://github.com/binarylogic/authlogic.git'
+gem 'authlogic'
 gem 'fastercsv'
 gem 'text'
 gem 'i18n'
