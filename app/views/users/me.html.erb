@@ -1,0 +1,19 @@
+<h2>My Account</h2>
+
+Username: <%= @user.name -%>
+
+<div class="foursquare">
+<% if @user.foursquare_authorized? -%>
+  Foursquare connected as <%= @user.foursquare.user['email'] -%>
+
+  <% form_for @user, :method => :post do |f| -%>
+    <%= f.hidden_field :foursquare_oauth_token, :value => '' -%>
+    <%= f.hidden_field :foursquare_oauth_secret, :value => '' -%>
+    <%= f.submit "Disconnect" -%>
+  <% end -%>
+<% else -%>
+  <% form_for :foursquare_auths, :url => foursquare_auths_url, :method => :post do |f| -%>
+    <%= f.submit "Connect to Foursquare" -%>
+  <% end -%>
+<% end -%>
+</div>

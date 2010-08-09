@@ -4,12 +4,7 @@
 	<%= f.error_messages %>
 	<fieldset>
 		<legend>Your Details</legend>
-		<ol>
-			<li>
-				<%= f.label :name, 'Name' %>
-				<%= f.text_field :name %>
-			</li>
-			<li>
+		<ol>			<li>
 				<%= f.label :email %>
 				<%= f.text_field :email %>
 			</li>
@@ -20,6 +15,10 @@
 			<li>
 				<%= f.label :password_confirmation, 'Confirm Password' %>
 				<%= f.password_field :password_confirmation %>
+			</li>
+			<li>
+				<%= f.label :name, 'Name (optional)' %>
+				<%= f.text_field :name %>
 			</li>
 		</ol>
 	</fieldset>

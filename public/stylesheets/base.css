@@ -53,6 +53,11 @@ body {
   background-color: #2b2b2b;
 }
 
+h1 a {
+  text-decoration: none;
+  color: #FFF;
+}
+
 #header ul li {
   float: right;
   display: block;

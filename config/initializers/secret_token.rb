@@ -2,6 +2,6 @@
 
 # Your secret key for verifying the integrity of signed cookies.
 # If you change this key, all old signed cookies will become invalid!
-# Make sure the secret is at least 30 characters and all random, 
+# Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-ActionController::Base.cookie_verifier_secret = '868829133ac03ede3e5a566d99324cfa60b3ba106c066aacab91b056babd5ba2aab95918e0c3b610470b7ad454446598fe3dec081bfd8fa96d2a92fb1873630a'
+GrubPoints::Application.config.secret_token = 'b19c5d5cc7a1157cfa599ec25d760aabe0eac0114ba2a940210da4d93abc45d9b1f50ef6a7f7035fb2c18f20e105a6d900fb3b88366c705505842aae43b77d52'

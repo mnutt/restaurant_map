@@ -1,5 +1,4 @@
 require 'yelp'
-require 'json/pure'
 
 class RestaurantsController < ApplicationController
   # GET /restaurants

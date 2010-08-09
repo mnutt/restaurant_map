@@ -1,18 +1,19 @@
+require File.expand_path('../secrets', __FILE__)
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
 # Auto-require default libraries and those for the current Rails environment.
-Bundler.require :default, Rails.env
+Bundler.require(:default, Rails.env) if defined?(Bundler)
 
-module RestaurantMap
+module GrubPoints
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
     # Add additional load paths for your own custom dirs
-    # config.load_paths += %W( #{config.root}/extras )
+    # config.autoload_paths += %W( #{config.root}/extras )
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named
@@ -26,17 +27,21 @@ module RestaurantMap
     # config.time_zone = 'Central Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
     # Configure generators values. Many other options are available, be sure to check the documentation.
-    # config.generators do |g|
-    #   g.orm             :active_record
-    #   g.template_engine :erb
-    #   g.test_framework  :test_unit, :fixture => true
-    # end
+    config.generators do |g|
+      g.orm             :active_record
+      g.template_engine :erb
+      g.test_framework  :rspec, :fixture => false
+    end
+
+    config.encoding = "utf-8"
+
+    config.secret_token = ENV['SECRET_TOKEN']
 
     # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters << :password
+    config.filter_parameters += [:password, :password_confirmation]
   end
 end
