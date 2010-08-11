@@ -1,12 +1,22 @@
-<h2>My Account</h2>
+<h2>My Account (<%= @user.name -%>)</h2>
 
-Username: <%= @user.name -%>
+<h3>Collections</h3>
+<div id="collections">
+  <%= render :partial => 'collections/collection', :collection => @user.collections -%>
+</div>
 
+<h3>Recent Restaurants</h3>
+
+<div id="restaurants">
+  <%= render :partial => 'restaurants/restaurant', :collection => @user.recent_restaurants -%>
+</div>
+
+
+<h3>Foursquare</h3>
 <div class="foursquare">
-<% if @user.foursquare_authorized? -%>
-  Foursquare connected as <%= @user.foursquare.user['email'] -%>
-
+<% if @user.foursquare_authorized? && @user.foursquare-%>
   <% form_for @user, :method => :post do |f| -%>
+    Connected as <%= @user.foursquare.user['email'] -%>
     <%= f.hidden_field :foursquare_oauth_token, :value => '' -%>
     <%= f.hidden_field :foursquare_oauth_secret, :value => '' -%>
     <%= f.submit "Disconnect" -%>

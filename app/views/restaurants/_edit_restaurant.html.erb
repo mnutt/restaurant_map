@@ -1,0 +1,19 @@
+<% restaurant = edit_restaurant -%>
+
+<div class="restaurant editing" id="<%= dom_id(restaurant) -%>">
+  <div class="actions">
+    <%= button_to "Edit", "#" -%>
+    <%= button_to "Delete", "#" -%>
+  </div>
+
+  <div class="visited_at">
+    <% if restaurant.last_visited_at -%>
+      <%= restaurant.last_visited_at.strftime("%b %d, %Y") %>
+    <% else -%>
+      ???
+    <% end -%>
+  </div>
+
+  <div class="name"><%= link_to h(restaurant.name), restaurant %></div>
+  <div class="address"><%=h restaurant.address -%></div>
+</div>

@@ -1,0 +1,31 @@
+<% current_user.foursquare.history.each do |checkin| -%>
+  <div class="restaurant editing">
+    <div class="actions">
+      <%= form_for Restaurant.new_from_foursquare(checkin), :method => :post do |f| -%>
+        <%= f.hidden_field :collection_id, :value => @collection.id -%>
+
+        <%= f.hidden_field :name -%>
+        <%= f.hidden_field :address -%>
+        <%= f.hidden_field :longitude -%>
+        <%= f.hidden_field :latitude -%>
+        <%= f.hidden_field :last_visited_at -%>
+        <%= f.hidden_field :foursquare_checkin_id -%>
+
+        <%= f.submit "Add" -%>
+      <% end -%>
+    </div>
+
+    <div class="visited_at">
+       <%= Time.parse(checkin.created).strftime('%A,<br> %B %d, %Y').html_safe -%>
+    </div>
+
+    <div class="name"><%= checkin.venue.name -%></div>
+    <div class="address"><%= checkin.venue.address -%></div>
+  </div>
+<% end -%>
+
+
+<pre>
+<%= current_user.foursquare.history.to_yaml -%>
+</pre>
+

@@ -15,6 +15,7 @@ GrubPoints::Application.routes.draw do
   resources :passwords
   resource  :user_session
   resources :tags
+  resources :collections
 
   resources :foursquare_auth
 

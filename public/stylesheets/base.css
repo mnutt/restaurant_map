@@ -127,6 +127,18 @@ div.restaurant div.visited_at {
   text-transform: uppercase;
 }
 
+div.editing div.actions {
+  float: right;
+  padding-left: 20px;
+  margin-top: -5px;
+  text-align: center;
+}
+
+div.editing div.visited_at {
+  width: 150px;
+  text-align: left;
+}
+
 /* Restaurant page */
 
 #restaurant h1 {

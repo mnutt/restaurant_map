@@ -1,0 +1,7 @@
+<h2>New collection</h2>
+
+<%= form_for @collection, :method => :post do |f| -%>
+  <%= f.label :name -%>
+  <%= f.text_field :name -%>
+  <%= f.submit -%>
+<% end -%>

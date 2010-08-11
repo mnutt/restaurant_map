@@ -1,0 +1,34 @@
+<div id="map_container">
+  <div id="map" style="margin: auto; width: 960px; height: 400px;"></div>
+</div>
+<%= raw @map.to_html %>
+
+<script>
+  $.getJSON("/restaurants.json", function(data) {
+    var restaurants = data;
+    markers = new OpenLayers.Layer.Markers("Restaurants");
+
+    for(var i = 0; i < restaurants.length; i++) {
+      var restaurant = restaurants[i];
+      GrubPoints.addRestaurantMarker(markers, restaurant);
+    }
+    map.addLayer(markers);
+  });
+
+</script>
+
+<h3>
+  <%= @collection.name -%>
+  <% if @collection.user == current_user -%>
+    <%= link_to "(edit)", edit_collection_url(@collection) -%>
+  <% end -%>
+</h3>
+
+<div id="restaurants">
+  <%= render :partial => 'restaurants/restaurant', :collection => @restaurants -%>
+</div>
+
+<br />
+
+<%= link_to 'New restaurant', new_restaurant_path %>
+

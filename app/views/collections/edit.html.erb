@@ -1,0 +1,21 @@
+<h2>Editing collection <%= @collection.name -%></h2>
+
+<h3>Add Restaurants</h3>
+
+<h4>Foursquare</h4>
+
+<% if current_user.foursquare_authorized? -%>
+  <%= render 'restaurants/foursquare_import' -%>
+<% else -%>
+  <p>Please enable foursquare first.</p>
+<% end -%>
+
+<h3>Restaurants</h3>
+
+<div>
+  <%= render :collection => @collection.restaurants, :partial => 'restaurants/edit_restaurant' -%>
+</div>
+
+<%= content_for :head do -%>
+  <%= link_to_javascript :edit_collection -%>
+<% end -%>
